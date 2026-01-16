@@ -224,10 +224,11 @@ class TsunamiPredictionModel:
             learning_rate = self.config['training']['learning_rate']
         
         # Custom loss weights for multi-output
+        # Prioritize tsunami detection (risk_probability) over other tasks
         loss_weights = {
-            'risk_probability': 2.0,
+            'risk_probability': 5.0,      # Increased to prioritize tsunami detection
             'confidence_score': 0.5,
-            'risk_class': 1.5
+            'risk_class': 1.0             # Reduced to avoid dominating loss
         }
         
         self.model.compile(

@@ -96,9 +96,16 @@ python prepare_data.py --all
 ```
 
 4. **Train the model:**
-```bash
-python train_model.py --epochs 50 --batch-size 32
-```
+
+   **Option A: Local Training**
+   ```bash
+   python train_model.py --epochs 50 --batch-size 32
+   ```
+
+   **Option B: Google Colab (Recommended for GPU)**
+   - Open [`Train_Tsunami_Model_Colab.ipynb`](Train_Tsunami_Model_Colab.ipynb) in Google Colab
+   - Follow the step-by-step instructions
+   - Download the trained model when complete
 
 5. **Run the web application:**
 ```bash

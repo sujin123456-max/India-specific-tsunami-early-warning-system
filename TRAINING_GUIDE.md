@@ -55,7 +55,7 @@ learning_rate = 0.001   # Default
 
 **Requirements:**
 - Python 3.8+
-- TensorFlow 2.15
+- TensorFlow 2.18 (auto-installed via requirements; available on Colab)
 - 8GB+ RAM (16GB recommended)
 - GPU optional but recommended
 

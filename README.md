@@ -1,7 +1,7 @@
 # 🌊 India-Specific Tsunami Early Warning System
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![TensorFlow 2.15](https://img.shields.io/badge/tensorflow-2.15-orange.svg)](https://www.tensorflow.org/)
+[![TensorFlow 2.18](https://img.shields.io/badge/tensorflow-2.18-orange.svg)](https://www.tensorflow.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 An **AI-powered, India-specific tsunami early warning system** built entirely on free public APIs and global historical data. This system uses a multi-modal CNN-LSTM deep learning model to predict tsunami risk in real-time, with intelligent filtering to ensure alerts are issued only when India is at risk.
@@ -85,6 +85,8 @@ cd India-specific-tsunami-early-warning-system
 ```bash
 pip install -r requirements.txt
 ```
+
+- Note: The project now targets TensorFlow 2.18.0 (available on Colab); no separate Keras install needed.
 
 3. **Prepare data:**
 ```bash

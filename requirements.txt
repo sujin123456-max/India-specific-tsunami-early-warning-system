@@ -1,6 +1,5 @@
-# Deep Learning Framework
-tensorflow==2.15.0
-keras==2.15.0
+# Deep Learning Framework (TensorFlow includes Keras)
+tensorflow==2.18.0
 
 # Scientific Computing
 numpy==1.24.3

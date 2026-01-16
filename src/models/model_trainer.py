@@ -169,22 +169,22 @@ class ModelTrainer:
     
     def train(self, X_train, y_train, X_val, y_val, 
               checkpoint_dir: str = 'models/checkpoints',
-              class_weights: Optional[Dict] = None) -> keras.callbacks.History:
+              sample_weights: Optional[np.ndarray] = None) -> keras.callbacks.History:
         """
-        Train the model
+        Train the model with Focal Loss (binary model)
         
         Args:
-            X_train: Training inputs
-            y_train: Training labels
+            X_train: Training inputs (1D array of shape)
+            y_train: Training labels (binary)
             X_val: Validation inputs
-            y_val: Validation labels
+            y_val: Validation labels (binary)
             checkpoint_dir: Directory for saving checkpoints
-            class_weights: Optional class weights dict for handling imbalance
+            sample_weights: Optional sample weights for handling imbalance (works with focal loss)
             
         Returns:
             Training history
         """
-        logger.info("Starting model training...")
+        logger.info("Starting model training with Focal Loss...")
         
         # Create checkpoint directory
         Path(checkpoint_dir).mkdir(parents=True, exist_ok=True)
@@ -192,7 +192,7 @@ class ModelTrainer:
         # Setup callbacks
         callbacks = self._setup_callbacks(checkpoint_dir)
         
-        # Train model with optional class weights
+        # Train model with sample weights (compatible with multi-task and focal loss)
         train_kwargs = {
             'x': X_train,
             'y': y_train,
@@ -203,9 +203,9 @@ class ModelTrainer:
             'verbose': 1
         }
         
-        if class_weights:
-            train_kwargs['class_weight'] = class_weights
-            logger.info(f"Using class weights: {class_weights}")
+        if sample_weights is not None:
+            train_kwargs['sample_weight'] = sample_weights
+            logger.info(f"Using sample weights: min={sample_weights.min():.3f}, max={sample_weights.max():.3f}, mean={sample_weights.mean():.3f}")
         
         self.history = self.model.model.fit(**train_kwargs)
         

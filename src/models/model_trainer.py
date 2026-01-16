@@ -168,7 +168,8 @@ class ModelTrainer:
         return X_train, y_train, X_val, y_val
     
     def train(self, X_train, y_train, X_val, y_val, 
-              checkpoint_dir: str = 'models/checkpoints') -> keras.callbacks.History:
+              checkpoint_dir: str = 'models/checkpoints',
+              class_weights: Optional[Dict] = None) -> keras.callbacks.History:
         """
         Train the model
         
@@ -178,6 +179,7 @@ class ModelTrainer:
             X_val: Validation inputs
             y_val: Validation labels
             checkpoint_dir: Directory for saving checkpoints
+            class_weights: Optional class weights dict for handling imbalance
             
         Returns:
             Training history
@@ -190,16 +192,22 @@ class ModelTrainer:
         # Setup callbacks
         callbacks = self._setup_callbacks(checkpoint_dir)
         
-        # Train model
-        self.history = self.model.model.fit(
-            x=X_train,
-            y=y_train,
-            batch_size=self.training_config['batch_size'],
-            epochs=self.training_config['epochs'],
-            validation_data=(X_val, y_val),
-            callbacks=callbacks,
-            verbose=1
-        )
+        # Train model with optional class weights
+        train_kwargs = {
+            'x': X_train,
+            'y': y_train,
+            'batch_size': self.training_config['batch_size'],
+            'epochs': self.training_config['epochs'],
+            'validation_data': (X_val, y_val),
+            'callbacks': callbacks,
+            'verbose': 1
+        }
+        
+        if class_weights:
+            train_kwargs['class_weight'] = class_weights
+            logger.info(f"Using class weights: {class_weights}")
+        
+        self.history = self.model.model.fit(**train_kwargs)
         
         logger.success("Model training completed!")
         

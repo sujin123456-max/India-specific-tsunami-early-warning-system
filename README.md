@@ -3,8 +3,12 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![TensorFlow 2.18](https://img.shields.io/badge/tensorflow-2.18-orange.svg)](https://www.tensorflow.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Deploy on Railway](https://img.shields.io/badge/Deploy-Railway-blueviolet)](https://railway.app/new/template)
+[![Deploy on Render](https://img.shields.io/badge/Deploy-Render-46E3B7)](https://render.com/deploy)
 
 An **AI-powered, India-specific tsunami early warning system** built entirely on free public APIs and global historical data. This system uses a multi-modal CNN-LSTM deep learning model to predict tsunami risk in real-time, with intelligent filtering to ensure alerts are issued only when India is at risk.
+
+> **🎓 Student Deployment Ready!** This project is configured for easy deployment using GitHub Student Pack benefits. See [DEPLOYMENT.md](DEPLOYMENT.md) for step-by-step instructions.
 
 ## 🎯 Overview
 

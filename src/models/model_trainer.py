@@ -10,21 +10,21 @@ from typing import Dict, Tuple, Optional
 import tensorflow as tf
 from tensorflow import keras
 
-from .cnn_lstm_model import TsunamiPredictionModel
+from .cnn_lstm_binary_model import TsunamiPredictionBinaryModel
 from .data_preprocessor import DataPreprocessor
 
 
 class ModelTrainer:
     """Trains tsunami prediction model on global historical data"""
     
-    def __init__(self, config: Dict, model: TsunamiPredictionModel, 
+    def __init__(self, config: Dict, model: TsunamiPredictionBinaryModel, 
                  preprocessor: DataPreprocessor):
         """
         Initialize model trainer
         
         Args:
             config: Configuration dictionary
-            model: TsunamiPredictionModel instance
+            model: TsunamiPredictionBinaryModel instance
             preprocessor: DataPreprocessor instance
         """
         self.config = config['model']

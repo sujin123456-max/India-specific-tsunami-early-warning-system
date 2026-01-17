@@ -6,9 +6,8 @@ Simplified architecture focused purely on tsunami detection
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers, Model
-import tensorflow.backend as K
+import keras.backend as K
 from typing import Dict, Tuple
-from loguru import logger
 
 
 def focal_loss(gamma=2.0, alpha=0.25):
@@ -71,7 +70,7 @@ class TsunamiPredictionBinaryModel:
         Returns:
             Compiled Keras model
         """
-        logger.info(f"Building simplified binary CNN-LSTM model with input shape: {input_shape}")
+        print(f"Building simplified binary CNN-LSTM model with input shape: {input_shape}")
         
         # ===== INPUT LAYER =====
         inputs = layers.Input(shape=input_shape, name='combined_input')
@@ -143,8 +142,8 @@ class TsunamiPredictionBinaryModel:
             ]
         )
         
-        logger.info(f"Model compiled successfully")
-        logger.info(f"Parameters: {model.count_params():,}")
+        print(f"Model compiled successfully")
+        print(f"Parameters: {model.count_params():,}")
         model.summary()
         
         self.model = model

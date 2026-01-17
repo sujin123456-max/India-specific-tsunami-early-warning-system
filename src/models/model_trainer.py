@@ -9,7 +9,6 @@ from pathlib import Path
 from typing import Dict, Tuple, Optional
 import tensorflow as tf
 from tensorflow import keras
-from loguru import logger
 
 from .cnn_lstm_model import TsunamiPredictionModel
 from .data_preprocessor import DataPreprocessor
@@ -44,7 +43,7 @@ class ModelTrainer:
         Returns:
             Tuple of (X_train, y_train, X_val, y_val)
         """
-        logger.info("Preparing training data from global tsunami database...")
+        print("Preparing training data from global tsunami database...")
         
         data_path = Path(data_dir)
         
@@ -55,11 +54,11 @@ class ModelTrainer:
         tsunami_events_file = data_path / 'global_tsunami_events.csv'
         
         if not tsunami_events_file.exists():
-            logger.warning("Global tsunami dataset not found. Creating sample data...")
+            print("Global tsunami dataset not found. Creating sample data...")
             return self._create_sample_training_data()
         
         df = pd.read_csv(tsunami_events_file)
-        logger.info(f"Loaded {len(df)} tsunami events")
+        print(f"Loaded {len(df)} tsunami events")
         
         # Process each event
         X_earthquake = []
@@ -127,13 +126,13 @@ class ModelTrainer:
             y_risk_class[:val_size]
         ]
         
-        logger.success(f"Training data prepared: {len(X_train[0])} train, {len(X_val[0])} validation")
+        print(f"Training data prepared: {len(X_train[0])} train, {len(X_val[0])} validation")
         
         return X_train, y_train, X_val, y_val
     
     def _create_sample_training_data(self) -> Tuple:
         """Create sample training data for demonstration"""
-        logger.warning("Creating synthetic training data for demonstration")
+        print("Creating synthetic training data for demonstration")
         
         n_samples = 1000
         
@@ -184,7 +183,7 @@ class ModelTrainer:
         Returns:
             Training history
         """
-        logger.info("Starting model training with Focal Loss...")
+        print("Starting model training with Focal Loss...")
         
         # Create checkpoint directory
         Path(checkpoint_dir).mkdir(parents=True, exist_ok=True)
@@ -205,11 +204,11 @@ class ModelTrainer:
         
         if sample_weights is not None:
             train_kwargs['sample_weight'] = sample_weights
-            logger.info(f"Using sample weights: min={sample_weights.min():.3f}, max={sample_weights.max():.3f}, mean={sample_weights.mean():.3f}")
+            print(f"Using sample weights: min={sample_weights.min():.3f}, max={sample_weights.max():.3f}, mean={sample_weights.mean():.3f}")
         
         self.history = self.model.model.fit(**train_kwargs)
         
-        logger.success("Model training completed!")
+        print("Model training completed!")
         
         return self.history
     
@@ -283,7 +282,7 @@ class ModelTrainer:
         Returns:
             Dictionary of evaluation metrics
         """
-        logger.info("Evaluating model...")
+        print("Evaluating model...")
         
         results = self.model.model.evaluate(X_test, y_test, verbose=0)
         
@@ -292,7 +291,7 @@ class ModelTrainer:
         for i, metric_name in enumerate(self.model.model.metrics_names):
             metrics[metric_name] = results[i]
         
-        logger.success("Model evaluation completed")
+        print("Model evaluation completed")
         
         return metrics
     
@@ -304,7 +303,7 @@ class ModelTrainer:
             save_path: Optional path to save plot
         """
         if self.history is None:
-            logger.warning("No training history available")
+            print("No training history available")
             return
         
         import matplotlib.pyplot as plt
@@ -360,6 +359,6 @@ class ModelTrainer:
         
         if save_path:
             plt.savefig(save_path)
-            logger.success(f"Training history plot saved to {save_path}")
+            print(f"Training history plot saved to {save_path}")
         else:
             plt.show()

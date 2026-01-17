@@ -9,7 +9,6 @@ from typing import Dict, Tuple, List, Optional
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import joblib
 from pathlib import Path
-from loguru import logger
 
 
 class DataPreprocessor:
@@ -47,7 +46,7 @@ class DataPreprocessor:
             Preprocessed array (timesteps, num_earthquakes, features)
         """
         if df.empty:
-            logger.warning("Empty earthquake dataframe")
+            print("Empty earthquake dataframe")
             return np.zeros((1, 10, 4))  # Default empty array
         
         temporal_window = temporal_window or self.temporal_window
@@ -108,7 +107,7 @@ class DataPreprocessor:
             all_features.append(buoy_features)
         
         if not all_features:
-            logger.warning("No ocean data available")
+            print("No ocean data available")
             return np.zeros((1, 5, 3))  # Default empty array
         
         # Stack and scale features
@@ -190,7 +189,7 @@ class DataPreprocessor:
             return spatial_features
             
         except Exception as e:
-            logger.error(f"Error preprocessing spatial data: {e}")
+            print(f"Error preprocessing spatial data: {e}")
             # Return default grid
             return np.zeros((*grid_size, 2))
     
@@ -300,7 +299,7 @@ class DataPreprocessor:
         joblib.dump(self.ocean_scaler, save_path / 'ocean_scaler.pkl')
         joblib.dump(self.spatial_scaler, save_path / 'spatial_scaler.pkl')
         
-        logger.success(f"Scalers saved to {save_dir}")
+        print(f"Scalers saved to {save_dir}")
     
     def load_scalers(self, save_dir: str):
         """Load fitted scalers"""
@@ -311,4 +310,4 @@ class DataPreprocessor:
         self.spatial_scaler = joblib.load(save_path / 'spatial_scaler.pkl')
         
         self.is_fitted = True
-        logger.success(f"Scalers loaded from {save_dir}")
+        print(f"Scalers loaded from {save_dir}")

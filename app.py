@@ -78,6 +78,61 @@ def serve_summary():
         return jsonify({'error': 'Summary page not found'}), 404
 
 
+@app.route('/test-data', methods=['GET'])
+def get_test_data():
+    """
+    Return test earthquake data for demonstration
+    Shows how the system responds to real earthquake scenarios
+    """
+    return jsonify({
+        'success': True,
+        'region': 'Indian Ocean',
+        'time_range': {
+            'start': (datetime.utcnow() - timedelta(hours=24)).isoformat(),
+            'end': datetime.utcnow().isoformat()
+        },
+        'total_earthquakes': 3,
+        'earthquakes': [
+            {
+                'magnitude': 6.8,
+                'location': 'Off West Coast of Sumatra',
+                'latitude': 0.5,
+                'longitude': 95.2,
+                'depth': 45,
+                'time': (datetime.utcnow() - timedelta(hours=2)).timestamp() * 1000,
+                'url': 'https://earthquake.usgs.gov/earthquakes/events/',
+                'tsunami_probability': 0.75,
+                'tsunami_risk': 'HIGH'
+            },
+            {
+                'magnitude': 5.9,
+                'location': 'Bay of Bengal',
+                'latitude': 10.2,
+                'longitude': 86.5,
+                'depth': 32,
+                'time': (datetime.utcnow() - timedelta(hours=6)).timestamp() * 1000,
+                'url': 'https://earthquake.usgs.gov/earthquakes/events/',
+                'tsunami_probability': 0.38,
+                'tsunami_risk': 'MODERATE'
+            },
+            {
+                'magnitude': 5.2,
+                'location': 'Andaman Sea',
+                'latitude': 8.5,
+                'longitude': 94.3,
+                'depth': 28,
+                'time': (datetime.utcnow() - timedelta(hours=12)).timestamp() * 1000,
+                'url': 'https://earthquake.usgs.gov/earthquakes/events/',
+                'tsunami_probability': 0.15,
+                'tsunami_risk': 'LOW'
+            }
+        ],
+        'predictions': [],
+        'high_risk_count': 1,
+        'alerts_triggered': 1
+    }), 200
+
+
 @app.route('/live-data', methods=['GET'])
 def get_live_data():
     """

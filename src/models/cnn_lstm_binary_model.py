@@ -23,17 +23,17 @@ def focal_loss(gamma=2.0, alpha=0.25):
         Focal loss function
     """
     def focal_loss_fixed(y_true, y_pred):
-        # Clip predictions to prevent log(0)
-        epsilon = K.epsilon()
-        y_pred = K.clip(y_pred, epsilon, 1. - epsilon)
+        # Clip predictions to prevent log(0) - Keras 3 compatible
+        epsilon = tf.keras.backend.epsilon()
+        y_pred = tf.clip_by_value(y_pred, epsilon, 1. - epsilon)
         
-        # Focal loss formula
-        cross_entropy = -y_true * K.log(y_pred) - (1 - y_true) * K.log(1 - y_pred)
-        focal_weight = y_true * alpha * K.pow(1 - y_pred, gamma) + \
-                       (1 - y_true) * (1 - alpha) * K.pow(y_pred, gamma)
-        focal_loss = focal_weight * cross_entropy
+        # Focal loss formula using TensorFlow ops (Keras 3 compatible)
+        cross_entropy = -y_true * tf.math.log(y_pred) - (1 - y_true) * tf.math.log(1 - y_pred)
+        focal_weight = y_true * alpha * tf.pow(1 - y_pred, gamma) + \
+                       (1 - y_true) * (1 - alpha) * tf.pow(y_pred, gamma)
+        focal_loss_value = focal_weight * cross_entropy
         
-        return K.mean(focal_loss)
+        return tf.reduce_mean(focal_loss_value)
     
     return focal_loss_fixed
 

@@ -36,27 +36,9 @@ def create_app(config_path='config/config.yaml'):
     app.config['SECRET_KEY'] = 'tsunami-warning-system-secret-key-change-in-production'
     app.config['JSON_SORT_KEYS'] = False
     
-    # Enable CORS for API access
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
-    
-    # Initialize SocketIO for real-time updates
-    socketio.init_app(app, cors_allowed_origins="*")
-    
-    # Register blueprints
-    from .api_routes import api_bp
-    from .web_routes import web_bp
-    
-    app.register_blueprint(api_bp, url_prefix='/api')
-    app.register_blueprint(web_bp, url_prefix='/')
-    
-    # Health check endpoint - returns 200 status
-    @app.route('/health')
-    def health_check():
-        return jsonify({
-            'status': 'healthy',
-            'service': 'Tsunami Early Warning System',
-            'timestamp': datetime.utcnow().isoformat()
-        }), 200
+    # Enable CORS for API access and Railway healthchecks
+    # Allow all origins for /api endpoints and healthcheck.railway.app for /health
+    CORS(app, resources={r"/api/*": {"origins": "*"}, r"/health": {"origins": "*"}})
     
     logger.success("Flask application created successfully")
     

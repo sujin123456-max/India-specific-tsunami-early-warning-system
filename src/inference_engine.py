@@ -10,15 +10,15 @@ from typing import Dict, Optional
 from loguru import logger
 import yaml
 
-from ..data_collection import (
+from .data_collection import (
     USGSEarthquakeCollector,
     NOAATidesCollector,
     NOAABuoysCollector,
     INCOISCollector,
     BathymetryLoader
 )
-from ..models import TsunamiPredictionModel, DataPreprocessor
-from ..filtering import IndiaImpactFilter, RiskAssessor
+from .models import TsunamiPredictionBinaryModel as TsunamiPredictionModel, DataPreprocessor
+from .filtering import IndiaImpactFilter, RiskAssessor
 
 
 class RealTimeInferenceEngine:

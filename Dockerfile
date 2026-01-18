@@ -38,4 +38,4 @@ ENV FLASK_APP=main.py
 ENV PORT=5000
 
 # Default command - use bash to substitute PORT variable
-CMD bash -c "python main.py --host 0.0.0.0 --port \$PORT"
+CMD bash -c "python main.py --host 0.0.0.0 --port $PORT"

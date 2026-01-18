@@ -23,6 +23,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy application code
 COPY . .
 
+# Make scripts executable
+RUN chmod +x /app/healthcheck.sh /app/start.sh
+
 # Create necessary directories
 RUN mkdir -p logs data/raw data/processed data/cache models/checkpoints
 
@@ -33,10 +36,6 @@ EXPOSE 5000
 ENV PYTHONUNBUFFERED=1
 ENV FLASK_APP=main.py
 ENV PORT=5000
-
-# Create health check script
-RUN echo '#!/bin/bash\nPORT=${PORT:-5000}\npython -c "import requests; requests.get(\"http://localhost:$PORT/health\", timeout=5)"' > /app/healthcheck.sh && \
-    chmod +x /app/healthcheck.sh
 
 # Health check - increased start period for model loading
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \

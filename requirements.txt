@@ -2,7 +2,7 @@
 tensorflow==2.18.0
 
 # Scientific Computing
-numpy==1.24.3
+numpy==1.26.0
 pandas==2.1.4
 scipy==1.11.4
 

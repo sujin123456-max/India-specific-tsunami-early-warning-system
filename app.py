@@ -86,6 +86,21 @@ def serve_summary():
         return jsonify({'error': 'Summary page not found'}), 404
 
 
+@app.route('/waves', methods=['GET'])
+def serve_wave_animation():
+    """Serve the advanced wave animation dashboard"""
+    try:
+        response = make_response(send_file('wave_animation.html'))
+        response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+        response.headers['Pragma'] = 'no-cache'
+        response.headers['Expires'] = '0'
+        logger.info("Wave animation dashboard requested")
+        return response
+    except Exception as e:
+        logger.error(f"Error serving wave animation: {e}")
+        return jsonify({'error': 'Wave animation page not found'}), 404
+
+
 @app.route('/test-data', methods=['GET'])
 def get_test_data():
     """

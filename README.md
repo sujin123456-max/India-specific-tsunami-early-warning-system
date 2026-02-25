@@ -109,7 +109,7 @@ python prepare_data.py --all
    ```
 
    **Option B: Google Colab (Recommended for GPU)**
-   - Open [`Train_Tsunami_Model_Colab.ipynb`](Train_Tsunami_Model_Colab.ipynb) in Google Colab
+   - Open [`Train_Tsunami_Model_Colab.ipynb`](notebooks/Train_Tsunami_Model_Colab.ipynb) in Google Colab
    - Follow the step-by-step instructions
    - Download the trained model when complete
 
